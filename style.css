@@ -86,3 +86,110 @@ body {
   padding: .5rem .75rem;
   border-radius: .5rem;
 }
+
+.filters {
+  margin: 2rem 0 1rem;
+}
+
+.filter-form {
+  display: grid;
+  gap: 1rem;
+  background: var(--bg-soft);
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: var(--shadow);
+}
+
+fieldset {
+  border: 1px dashed rgba(255, 255, 255, .15);
+  border-radius: .8rem;
+  padding: .75rem 1rem;
+}
+
+legend {
+  padding: 0 .4rem;
+  color: var(--muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.label {
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: .25rem;
+  letter-spacing: .15px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+input[type="search"],
+select,
+input[type="range"] {
+  width: 100%;
+  padding: .7rem .8rem;
+  border-radius: .7rem;
+  border: 1px solid rgba(255, 255, 255, .15);
+  background: rgba(0, 0, 0, .18);
+  color: var(--text);
+  outline: none;
+}
+
+input[type="search"]:focus,
+select:focus,
+input[type="range"]:focus {
+  box-shadow: 0 0 0 3px var(--ring);
+  border-color: transparent;
+}
+
+.actions {
+  display: flex;
+  gap: .75rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #001018;
+  padding: .65rem 1rem;
+  border-radius: .7rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  font-weight: 800;
+}
+
+.btn:not(.primary) {
+  background: rgba(255, 255, 255, .06);
+  color: var(--text);
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
