@@ -14,13 +14,67 @@
         <ul>
           <li><a href="#filters">Filters</a></li>
           <li><a href="#results">Results</a></li>
-          <li><a href="#about">About</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main id="main" class="container" role="main">
+  <main id="main" class="container">
+    <section id="filters" class="filters">
+      <h2 id="filters-title">Filter & Search</h2>
+
+      <form id="filterForm" class="filter-form">
+        <p id="filter-help" class="sr-only">Choose genres, year, and rating; use search to narrow by title or cast.</p>
+
+        <fieldset>
+          <legend>Genres</legend>
+          <div class="chips" id="genreChips"></div>
+        </fieldset>
+
+        <div class="grid-3">
+          <label>
+            <span class="label">Search</span>
+            <input type="search" name="q" placeholder="Search title, cast, or keywords…" autocomplete="off" />
+          </label>
+
+          <label>
+            <span class="label">Min Rating: <output id="ratingOut">3</output></span>
+            <input type="range" name="minRating" min="1" max="5" step="0.1" value="3" />
+          </label>
+
+          <label>
+            <span class="label">Year</span>
+            <select name="year" id="yearSelect">
+              <option value="">All</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>
+            <span class="label">Sort by</span>
+            <select name="sort">
+              <option value="title-desc">Title (Z→A)</option>
+              <option value="rating-desc">Rating (High→Low)</option>
+            </select>
+          </label>
+
+          <label>
+            <span class="label">Items per page</span>
+            <select name="perPage">
+              <option value="6">6</option>
+              <option value="8" selected>8</option>
+              <option value="10">10</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="submit">Apply</button>
+          <button class="btn" type="reset" id="resetBtn">Reset</button>
+        </div>
+      </form>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -30,8 +84,6 @@
   </footer>
 
   <script src="script.js"></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
