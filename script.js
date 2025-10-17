@@ -13,4 +13,15 @@
   let filteredMovies = [];
   let currentPage = 1;
   let perPage = 9;
+
+  function loadMovies() {
+    const dataScript = document.getElementById('movies-data');
+    if (!dataScript) return;
+    const data = JSON.parse(dataScript.textContent);
+    allMovies = data.movies;
+    filteredMovies = [...allMovies];
+    console.log(`Loaded ${allMovies.length} movies`);
+  }
+
+  loadMovies();
 })();
