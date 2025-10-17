@@ -32,3 +32,57 @@ body {
   width: min(1100px, 92%);
   margin-inline: auto;
 }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  background: rgba(7, 20, 38, .7);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  z-index: 10;
+}
+
+.header-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.site-title {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  color: var(--text);
+  text-decoration: none;
+  opacity: .9;
+}
+
+.site-nav a:hover {
+  opacity: 1;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+}
+
+.skip-link:focus {
+  position: static;
+  background: var(--accent-2);
+  color: #003;
+  padding: .5rem .75rem;
+  border-radius: .5rem;
+}
