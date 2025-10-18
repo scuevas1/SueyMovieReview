@@ -158,4 +158,12 @@
     render();
   });
 
+  
+  //this is the event listener that when the reset button is clicked it will reset the filter.
+  els.reset.addEventListener("click", () => {
+    state.filters = { genres: new Set(), q: "", minRating: 3, year: "", sort: "title-asc", perPage: 9, page: 1 };
+    els.form.reset();
+    els.ratingOut.textContent = state.filters.minRating;
+    render();
+  });
 })();
