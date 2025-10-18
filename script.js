@@ -119,7 +119,6 @@
     `;
   }
 
-
   //this part will render the filtered, sorted, and paginated list to the page
   function render() {
     const filtered = applyFilters();
@@ -140,6 +139,19 @@
       els.ratingOut.textContent = ratingInput.value;
     });
   }
+
+  //this submit button is the 'apply' button. It will read the values and make the changes on the page. 
+  els.form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    readFormIntoState();
+    render();
+  });
+
+  //this is the previous and next buttons. The user will be able to change between pages and it works on the last changed filter.
+  els.prev.addEventListener("click", () => {
+    state.filters.page = Math.max(1, state.filters.page - 1);
+    render();
+  });
 
 
 })();
