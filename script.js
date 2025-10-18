@@ -25,4 +25,13 @@
   };
 
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  //this will load the inline JSON info of the movie first
+  const inline = document.getElementById("movies-data")?.textContent?.trim() || "";
+  try {
+    state.data = JSON.parse(inline).movies || [];
+  } catch {
+    state.data = [];
+  }
+
 })();
