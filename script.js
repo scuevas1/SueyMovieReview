@@ -74,4 +74,46 @@
       return 0;
     });
   }
+
+  //this part figures out which items should be shown on the index.html page when the filter is edited.
+  function paginate(list){
+    const per = Number(state.filters.perPage);
+    const start = (state.filters.page - 1) * per;
+    const totalPages = Math.max(1, Math.ceil(list.length / per));
+    const pageItems = list.slice(start, start + per);
+    return [pageItems, totalPages];
+  }
+
+  //this will make a card for each movie. It will help organize the movies. it will provide info like the genre, year, rating and etc.
+  function toCard(m){
+    const tags = (m.genres||[]).map(t=>`<span class="tag">${t}</span>`).join("");
+    const href = m.slug || "#";
+    return `
+      <li>
+        <a class="card-link" href="${href}" aria-label="Open ${m.title} details">
+          <article class="card" role="listitem" aria-label="${m.title}">
+            <figure><img src="${poster}" alt="Poster for ${m.title}" loading="lazy" /></figure>
+            <h3>${m.title}</h3>
+            <p class="meta">${m.year || ""} • <span class="badge">${(m.rating||0).toFixed(1)}★</span></p>
+            <div class="tags" aria-label="Genres">${tags}</div>
+            <p class="cta"><span class="btn">Read review</span></p>
+          </article>
+        </a>
+      </li>
+    `;
+  }
+
+  function render(){
+    const filtered = applyFilters();
+    const sorted   = sortItems(filtered);
+    const [pageItems, totalPages] = paginate(sorted);
+
+    els.cards.innerHTML = pageItems.map(toCard).join("");
+    els.cards.setAttribute("aria-busy","false");
+    els.count.textContent = `${filtered.length} movie(s) • page ${state.filters.page} of ${totalPages}`;
+    document.getElementById("prevBtn").disabled = state.filters.page <= 1;
+    document.getElementById("nextBtn").disabled = state.filters.page >= totalPages;
+    const pageOut = document.getElementById("pageOut");
+    if (pageOut) pageOut.value = state.filters.page;
+  }
 })();
