@@ -288,3 +288,29 @@ main h2 {
   color: var(--accent-2);
   margin-top: 1.5rem;
 }
+
+.media-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.video-container iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: .6rem;
+  box-shadow: var(--shadow);
+}
+
+.movie-info {
+  background: var(--bg-soft);
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.movie-info p {
+  margin: .3rem 0;
+}
