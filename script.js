@@ -36,6 +36,7 @@
 
   //this will make the function run when the page loads
   hydrateFilterOptions(state.data);
+  render();
 
   //
   function hydrateFilterOptions(list) {
@@ -87,23 +88,25 @@
   }
 
   //this will make a card for each movie. It will help organize the movies. it will provide info like the genre, year, rating and etc.
-  function toCard(m){
-    const tags = (m.genres||[]).map(t=>`<span class="tag">${t}</span>`).join("");
+  function toCard(m) {
+    const tags = (m.genres || []).map(t => `<span class="tag">${t}</span>`).join("");
+    const poster = m.poster;  // 
     const href = m.slug || "#";
     return `
-      <li>
-        <a class="card-link" href="${href}" aria-label="Open ${m.title} details">
-          <article class="card" role="listitem" aria-label="${m.title}">
+        <li>
+        <a class="card-link" href="${href}">
+            <article class="card">
             <figure><img src="${poster}" alt="Poster for ${m.title}" loading="lazy" /></figure>
             <h3>${m.title}</h3>
-            <p class="meta">${m.year || ""} • <span class="badge">${(m.rating||0).toFixed(1)}★</span></p>
-            <div class="tags" aria-label="Genres">${tags}</div>
+            <p class="meta">${m.year || ""} • <span class="badge">${(m.rating || 0).toFixed(1)}★</span></p>
+            <div class="tags">${tags}</div>
             <p class="cta"><span class="btn">Read review</span></p>
-          </article>
+            </article>
         </a>
-      </li>
+        </li>
     `;
   }
+
 
   //this part will render the filtered, sorted, and paginated list to the page
   function render(){
@@ -119,5 +122,20 @@
     const pageOut = document.getElementById("pageOut");
     if (pageOut) pageOut.value = state.filters.page;
   }
+
+// This event listener will update anything that changes in the filter form and re-redner the results right away. 
+  els.form.addEventListener("input", () => {
+    const fd = new FormData(els.form);
+    state.filters.q = fd.get("q") || "";
+    state.filters.minRating = Number(fd.get("minRating")) || 3;
+    state.filters.year = fd.get("year") || "";
+    state.filters.sort = fd.get("sort") || "title-asc";
+    state.filters.perPage = Number(fd.get("perPage")) || 9;
+    state.filters.genres = new Set(fd.getAll("genre"));
+    els.ratingOut.textContent = state.filters.minRating;
+    state.filters.page = 1;
+    render();
+  });
+
 
 })();
