@@ -47,4 +47,31 @@
     const years = Array.from(new Set(list.map(m => m.year))).filter(Boolean).sort((a,b)=>b-a);
     els.yearSelect.insertAdjacentHTML("beforeend", years.map(y => `<option value="${y}">${y}</option>`).join(""));
   }
+
+  //this part applies the filters that the user puts.
+  function applyFilters(){
+    const { genres, q, minRating, year } = state.filters;
+    const needle = q.trim().toLowerCase();
+
+    return state.data.filter(m => {
+      const genreOk  = genres.size ? (m.genres||[]).some(g => genres.has(g)) : true;
+      const ratingOk = (m.rating||0) >= Number(minRating);
+      const yearOk   = year ? String(m.year) === String(year) : true;
+      const haystack = `${m.title} ${(m.cast||[]).join(" ")} ${(m.keywords||[]).join(" ")}`.toLowerCase();
+      const searchOk = needle ? haystack.includes(needle) : true;
+      return genreOk && ratingOk && yearOk && searchOk;
+    });
+  }
+
+  //this part sorts the filtered movie list based on the selected sort option 
+  function sortItems(list){
+    const [key, dir] = state.filters.sort.split("-");
+    const mult = dir === "asc" ? 1 : -1;
+    return list.sort((a,b)=>{
+      if (key === "title")  return a.title.localeCompare(b.title) * mult;
+      if (key === "rating") return ((a.rating||0)-(b.rating||0)) * mult;
+      if (key === "year")   return ((a.year||0)-(b.year||0)) * mult;
+      return 0;
+    });
+  }
 })();
