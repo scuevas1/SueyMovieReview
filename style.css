@@ -314,3 +314,8 @@ main h2 {
 .movie-info p {
   margin: .3rem 0;
 }
+
+.btn a {
+  text-decoration: none;
+  color: #001018;
+}
