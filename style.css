@@ -271,3 +271,20 @@ input[type="search"], select, input[type="range"] {
   padding: 2rem 0;
   margin-top: 3rem;
 }
+
+.site-header h1 {
+  color: var(--text);
+  font-size: 3.0rem;
+  margin: 0;
+}
+
+.container {
+  width: min(1100px, 92%);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+main h2 {
+  color: var(--accent-2);
+  margin-top: 1.5rem;
+}
