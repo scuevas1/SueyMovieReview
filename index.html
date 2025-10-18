@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suey's Movie Reviews</title>
   <meta name="description" content="Filter and explore movie reviews by genre, year, and rating." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css"></head>
 <body>
   <a class="skip-link" href="#results">Skip to results</a>
 
-  <header class="site-header" role="banner">
+  <header class="site-header">
     <div class="container header-grid">
       <h1 class="site-title">Suey's Movie Reviews</h1>
-      <nav aria-label="Primary" class="site-nav">
+      <nav class="site-nav">
         <ul>
           <li><a href="#filters">Filters</a></li>
           <li><a href="#results">Results</a></li>
@@ -24,11 +21,11 @@
     </div>
   </header>
 
-  <main id="main" class="container" role="main">
-    <section id="filters" class="filters" aria-labelledby="filters-title">
+  <main id="main" class="container">
+    <section id="filters" class="filters">
       <h2 id="filters-title">Filter, Search & Sort</h2>
 
-      <form id="filterForm" class="filter-form" aria-describedby="filter-help">
+      <form id="filterForm" class="filter-form">
         <p id="filter-help" class="sr-only">Choose genres, year, and rating; use search to narrow by title or cast.</p>
 
         <fieldset>
@@ -85,17 +82,16 @@
       </form>
     </section>
 
-    <section id="results" class="results" aria-labelledby="results-title">
+    <section id="results" class="results">
       <div class="results-header">
         <h2 id="results-title">Results</h2>
-        <p id="count" class="muted" aria-live="polite">Loading…</p>
       </div>
 
-      <ul id="cards" class="cards" role="list" aria-busy="true"></ul>
+      <ul id="cards" class="cards"></ul>
 
-      <nav class="pagination" aria-label="Pagination">
+      <nav class="pagination">
         <button class="btn" id="prevBtn" disabled>Previous</button>
-        <output id="pageOut" aria-live="polite">1</output>
+        <output id="pageOut">1</output>
         <button class="btn" id="nextBtn">Next</button>
       </nav>
     </section>
