@@ -209,6 +209,16 @@ input[type="search"], select, input[type="range"] {
   transform: translateY(-2px);
 }
 
+.card-link {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.card-link:hover {
+  opacity: 0.85;
+}
+
 .card figure {
   margin: 0;
 }
