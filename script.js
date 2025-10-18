@@ -51,6 +51,18 @@
     els.yearSelect.insertAdjacentHTML("beforeend", years.map(y => `<option value="${y}">${y}</option>`).join(""));
   } 
 
+  //this function will read the current form values into state. It will work when you click the apply button.
+  function readFormIntoState() {
+    const fd = new FormData(els.form);
+    state.filters.q         = fd.get("q") || "";
+    state.filters.minRating = Number(fd.get("minRating")) || 3;
+    state.filters.year      = fd.get("year") || "";
+    state.filters.sort      = fd.get("sort") || "title-asc";
+    state.filters.perPage   = Number(fd.get("perPage")) || 9;
+    state.filters.genres    = new Set(fd.getAll("genre"));
+    state.filters.page = 1;
+  }
+
    //this part applies the filters that the user puts.
   function applyFilters(){
     const { genres, q, minRating, year } = state.filters;
@@ -109,33 +121,25 @@
 
 
   //this part will render the filtered, sorted, and paginated list to the page
-  function render(){
+  function render() {
     const filtered = applyFilters();
-    const sorted   = sortItems(filtered);
+    const sorted = sortItems(filtered);
     const [pageItems, totalPages] = paginate(sorted);
 
     els.cards.innerHTML = pageItems.map(toCard).join("");
-    els.cards.setAttribute("aria-busy","false");
     els.count.textContent = `${filtered.length} movie(s) • page ${state.filters.page} of ${totalPages}`;
-    document.getElementById("prevBtn").disabled = state.filters.page <= 1;
-    document.getElementById("nextBtn").disabled = state.filters.page >= totalPages;
-    const pageOut = document.getElementById("pageOut");
-    if (pageOut) pageOut.value = state.filters.page;
+    els.prev.disabled = state.filters.page <= 1;
+    els.next.disabled = state.filters.page >= totalPages;
+    els.pageOut.value = state.filters.page;
   }
 
-// This event listener will update anything that changes in the filter form and re-redner the results right away. 
-  els.form.addEventListener("input", () => {
-    const fd = new FormData(els.form);
-    state.filters.q = fd.get("q") || "";
-    state.filters.minRating = Number(fd.get("minRating")) || 3;
-    state.filters.year = fd.get("year") || "";
-    state.filters.sort = fd.get("sort") || "title-asc";
-    state.filters.perPage = Number(fd.get("perPage")) || 9;
-    state.filters.genres = new Set(fd.getAll("genre"));
-    els.ratingOut.textContent = state.filters.minRating;
-    state.filters.page = 1;
-    render();
-  });
+  //this will keep the slider's number in sync, but it will not render.
+  const ratingInput = els.form.querySelector('input[name="minRating"]');
+  if (ratingInput) {
+    ratingInput.addEventListener("input", () => {
+      els.ratingOut.textContent = ratingInput.value;
+    });
+  }
 
 
 })();
