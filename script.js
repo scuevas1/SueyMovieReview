@@ -103,6 +103,7 @@
     `;
   }
 
+  //this part will render the filtered, sorted, and paginated list to the page
   function render(){
     const filtered = applyFilters();
     const sorted   = sortItems(filtered);
