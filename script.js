@@ -4,37 +4,33 @@
     filters: {
       genres: new Set(),
       minRating: 3,
-      page: 1
     }
   };
 
   const els = {
     form: document.getElementById("filterForm"),
     cards: document.getElementById("cards"),
-    count: document.getElementById("count"),
-    pageOut: document.getElementById("pageOut"),
-    prev: document.getElementById("prevBtn"),
-    next: document.getElementById("nextBtn"),
     ratingOut: document.getElementById("ratingOut"),
     genreChips: document.getElementById("genreChips"),
     reset: document.getElementById("resetBtn")
   };
 
   //this will load the inline JSON info of the movie first
-  const inline = document.getElementById("movies-data")?.textContent?.trim() || "";
   try {
-    state.data = JSON.parse(inline).movies || [];
+    const raw = document.getElementById("movies-data")?.textContent?.trim() || "";
+    const parsed = raw ? JSON.parse(raw) : null;
+    state.data = Array.isArray(parsed?.movies) ? parsed.movies : [];
   } catch {
     state.data = [];
   }
-
   //this will make the function run when the page loads
   hydrateFilterOptions(state.data);
   render();
 
   
   function hydrateFilterOptions(list) {
-    //these are the genre options from the filter. So the user can choose from those options and it will bring up a movie that is one of those genres.    
+    //these are the genre options from the filter. So the user can choose from those options and it will bring up a movie that is one of those genres. 
+    if (!els.genreChips) return;   
     const genres = Array.from(new Set(list.flatMap(m => m.genres || []))).sort();
     els.genreChips.innerHTML = genres.map(g => `
       <label class="chip"><input type="checkbox" name="genre" value="${g}">${g}</label>
@@ -46,12 +42,11 @@
     const fd = new FormData(els.form);
     state.filters.minRating = Number(fd.get("minRating")) || 3;
     state.filters.genres    = new Set(fd.getAll("genre"));
-    state.filters.page = 1;
   }
 
    //this part applies the filters that the user puts.
   function applyFilters(){
-    const { genres, q, minRating, } = state.filters;
+    const { genres, minRating, } = state.filters;
 
     return state.data.filter(m => {
       const genreOk  = genres.size ? (m.genres||[]).some(g => genres.has(g)) : true;
@@ -65,19 +60,10 @@
     return list.slice().sort((a,b)=> a.title.localeCompare(b.title));
   }
 
-  //this part figures out which items should be shown on the index.html page when the filter is edited.
-  function paginate(list){
-    const per = 9;
-    const start = (state.filters.page - 1) * per;
-    const totalPages = Math.max(1, Math.ceil(list.length / per));
-    const pageItems = list.slice(start, start + per);
-    return [pageItems, totalPages];
-  }
-
   //this will make a card for each movie. It will help organize the movies. it will provide info like the genre, year, rating and etc.
   function toCard(m) {
     const tags = (m.genres || []).map(t => `<span class="tag">${t}</span>`).join("");
-    const poster = m.poster;  // 
+    const poster = m.poster;  
     const href = m.slug || "#";
     return `
         <li>
@@ -97,23 +83,24 @@
   //this part will render the filtered, sorted, and paginated list to the page
   function render() {
     const filtered = applyFilters();
-    const sorted = sortItems(filtered);
-    const [pageItems, totalPages] = paginate(sorted);
-
-    els.cards.innerHTML = pageItems.map(toCard).join("");
-    els.count.textContent = `${filtered.length} movie(s) • page ${state.filters.page} of ${totalPages}`;
-    els.prev.disabled = state.filters.page <= 1;
-    els.next.disabled = state.filters.page >= totalPages;
-    els.pageOut.value = state.filters.page;
+    els.cards.innerHTML = filtered.map(toCard).join("");
   }
 
   //this will keep the slider's number in sync, but it will not render.
-  const ratingInput = els.form.querySelector('input[name="minRating"]');
-  if (ratingInput) {
-    ratingInput.addEventListener("input", () => {
-      els.ratingOut.textContent = ratingInput.value;
-    });
+  const ratingInput = document.querySelector('input[name="minRating"]');
+  const ratingOut   = document.getElementById('ratingOut');
+
+  function showRating(v) {
+    ratingOut.textContent = Number(v).toFixed(1).replace(/\.0$/, '');
   }
+
+  if (ratingInput && ratingOut) {
+    showRating(ratingInput.value);
+
+    ratingInput.addEventListener('input',  (e) => showRating(e.target.value));
+    ratingInput.addEventListener('change', (e) => showRating(e.target.value));
+  }
+
 
   //this submit button is the 'apply' button. It will read the values and make the changes on the page. 
   els.form.addEventListener("submit", (e) => {
@@ -121,29 +108,16 @@
     readFormIntoState();
     render();
   });
-
-  //this is the previous and next buttons. The user will be able to change between pages and it works on the last changed filter.
-  els.prev.addEventListener("click", () => {
-    state.filters.page = Math.max(1, state.filters.page - 1);
-    render();
-  });
-
-    els.next.addEventListener("click", () => {
-    state.filters.page = state.filters.page + 1;
-    render();
-  });
-
   
   //this is the event listener that when the reset button is clicked it will reset the filter.
   els.reset.addEventListener("click", () => {
     state.filters = {
         genres: new Set(),
         minRating: 3,
-        page: 1
     };
 
-    els.form.reset();                               
-    els.ratingOut.textContent = state.filters.minRating;
+    els.form.reset();       
+    if (els.ratingOut) els.ratingOut.textContent = state.filters.minRating;                        
     hydrateFilterOptions(state.data);            
     render();                                   
   });
