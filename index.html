@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suey's Movie Reviews</title>
   <meta name="description" content="Filter and explore movie reviews by genre, year, and rating." />
-  <link rel="stylesheet" type="text/css" href="style.css"></head>
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
   <a class="skip-link" href="#results">Skip to results</a>
 
@@ -16,6 +17,7 @@
         <ul>
           <li><a href="#filters">Filters</a></li>
           <li><a href="#results">Results</a></li>
+          <li><a href="#about">About</a></li>
         </ul>
       </nav>
     </div>
@@ -26,8 +28,6 @@
       <h2 id="filters-title">Filter, Search & Sort</h2>
 
       <form id="filterForm" class="filter-form">
-        <p id="filter-help" class="sr-only">Choose genres, year, and rating; use search to narrow by title or cast.</p>
-
         <fieldset>
           <legend>Genres</legend>
           <div class="chips" id="genreChips"></div>
@@ -65,14 +65,14 @@
             </select>
           </label>
 
-        <label>
-          <span class="label">Items per page</span>
-          <select name="perPage">
-            <option value="6">6</option>
-            <option value="9" selected>9</option>
-            <option value="12">12</option>
-          </select>
-        </label>
+          <label>
+            <span class="label">Items per page</span>
+            <select name="perPage">
+              <option value="6">6</option>
+              <option value="9" selected>9</option>
+              <option value="12">12</option>
+            </select>
+          </label>
         </div>
 
         <div class="actions">
@@ -85,6 +85,7 @@
     <section id="results" class="results">
       <div class="results-header">
         <h2 id="results-title">Results</h2>
+        <p id="count" class="muted">Loading…</p>
       </div>
 
       <ul id="cards" class="cards"></ul>
