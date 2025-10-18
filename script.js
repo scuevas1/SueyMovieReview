@@ -153,5 +153,9 @@
     render();
   });
 
+    els.next.addEventListener("click", () => {
+    state.filters.page = state.filters.page + 1;
+    render();
+  });
 
 })();
